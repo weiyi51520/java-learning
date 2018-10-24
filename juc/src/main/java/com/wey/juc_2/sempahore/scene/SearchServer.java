@@ -10,17 +10,33 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @date 2018/10/22 09:48
  */
 public class SearchServer<T> {
-    private final CharColumn<T> [] columns=new CharColumn[Character.MAX_VALUE];
-    private final ReentrantReadWriteLock rwl=new ReentrantReadWriteLock();
-    private final Lock r=rwl.readLock();
-    private final Lock w=rwl.writeLock();
+    private final CharColumn<T>[] columns = new CharColumn[Character.MAX_VALUE];
+    private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+    private final Lock r = rwl.readLock();
+    private final Lock w = rwl.writeLock();
 
-    public void put(T t,String value){
+    public static void main(String[] args) {
+        SearchServer<String> server = new SearchServer<>();
+        server.put("湖北", "湖北");
+        server.put("湖南", "湖南");
+        server.put("河北", "河北");
+        server.put("天北", "天北");
+        server.put("地北", "地北");
+        server.put("南北", "南北");
+        server.put("北北", "北北");
+
+        Collection collection = server.search("北北", 3);
+        collection.forEach(o -> {
+            System.out.println(o);
+        });
+    }
+
+    public void put(T t, String value) {
         w.lock();
         try {
             char[] chars = value.toCharArray();
             for (int i = 0; i < chars.length; i++) {
-                char c = chars[i];//百
+                char c = chars[i];
                 CharColumn<T> cloumn = columns[c];
                 if (cloumn == null) {
                     cloumn = new CharColumn<T>();
@@ -28,127 +44,126 @@ public class SearchServer<T> {
                 }
                 cloumn.add(t, (byte) i);
             }
-        }finally {
+        } finally {
             w.unlock();
         }
 
     }
+
     //先删除
     //加入
     //更新了
-    public void update(T t,String newValue)
-    {
+    public void update(T t, String newValue) {
         w.lock();
-        try{
+        try {
             remove(t);
-            put(t,newValue);
-        }finally {
-            w.unlock();;
+            put(t, newValue);
+        } finally {
+            w.unlock();
+            ;
         }
 
 
     }
 
-    public boolean remove(T t){
+    public boolean remove(T t) {
         w.lock();
-        try{
-            for(CharColumn<T>  column:columns){
-                if(column!=null){
-                    if(column.remove(t)){
+        try {
+            for (CharColumn<T> column : columns) {
+                if (column != null) {
+                    if (column.remove(t)) {
                         return true;
-
                     }
                 }
             }
-            return  false;
-
-        }finally {
+            return false;
+        } finally {
             w.unlock();
         }
     }
 
-    public Collection search(String word,int limit){
+    public Collection search(String word, int limit) {
         r.lock();
 
-        try{
-            int n=word.length();
-            char chars[]=word.toCharArray();
-            Context context=new Context();
-            for(int i=0;i<chars.length;i++){
-                CharColumn<T>  column=columns[chars[i]];
-                if(column==null){
+        try {
+            int n = word.length();
+            char chars[] = word.toCharArray();
+            Context context = new Context();
+            for (int i = 0; i < chars.length; i++) {
+                CharColumn<T> column = columns[chars[i]];
+                if (column == null) {
                     break;
                 }
-                if(!context.filter(column)){
+                if (!context.filter(column)) {
                     break;
                 }
                 n--;
 
             }
-            if(n==0){
+            if (n == 0) {
 
                 return context.limit(limit);
 
             }
             return Collections.emptySet();
-        }finally {
+        } finally {
             r.unlock();
         }
 
     }
 
-    private class Context{
-        Map<T,byte[]> result;
-        boolean used=false;
+    private class Context {
+        Map<T, byte[]> result;
+        boolean used = false;
 
-        private boolean filter(CharColumn<T> columns){
-            if(this.used==false) {
+        private boolean filter(CharColumn<T> columns) {
+            if (this.used == false) {
                 this.result = new TreeMap<>(columns.poxIndex);
                 this.used = true;
                 return true;
             }
-            boolean flag=false;
-            Map<T,byte[]> newReulst=new TreeMap<T,byte[]> ();
+            boolean flag = false;
+            Map<T, byte[]> newReulst = new TreeMap<T, byte[]>();
             Set<Map.Entry<T, byte[]>> entrySet = columns.poxIndex.entrySet();
-            for(Map.Entry<T, byte[]> entry:entrySet){
-                T id=entry.getKey();
-                byte[] charPox=entry.getValue();
-                if(!result.containsKey(id)){
+            for (Map.Entry<T, byte[]> entry : entrySet) {
+                T id = entry.getKey();
+                byte[] charPox = entry.getValue();
+                if (!result.containsKey(id)) {
                     continue;
                 }
-                byte[] before=result.get(id);
-                boolean in=false;
-                for(byte pox:before){
+                byte[] before = result.get(id);
+                boolean in = false;
+                for (byte pox : before) {
 
-                    if(contain(charPox,(byte)(pox+1))){
-                        in=true;
+                    if (contain(charPox, (byte) (pox + 1))) {
+                        in = true;
                         break;
                     }
                 }
-                if(in){
-                    flag=true;
-                    newReulst.put(id,charPox);
+                if (in) {
+                    flag = true;
+                    newReulst.put(id, charPox);
                 }
             }
-            result=newReulst;
+            result = newReulst;
             return true;
         }
 
-        public Collection<T> limit(int limit){
+        public Collection<T> limit(int limit) {
 
-            if(result.size()<=limit){
+            if (result.size() <= limit) {
                 return result.keySet();
             }
-            Collection<T> ids=new TreeSet<T>();
-            for (T id:result.keySet()){
+            Collection<T> ids = new TreeSet<T>();
+            for (T id : result.keySet()) {
                 ids.add(id);
-                if(ids.size()>=limit){
+                if (ids.size() >= limit) {
                     break;
                 }
 
 
             }
-            return  ids;
+            return ids;
         }
 
 
@@ -162,9 +177,9 @@ public class SearchServer<T> {
             if (null == arr) {
                 arr = new byte[]{pox};
             } else {
-                arr = copy(arr,pox);
+                arr = copy(arr, pox);
             }
-            poxIndex.put(t,arr);
+            poxIndex.put(t, arr);
 
         }
 
@@ -178,14 +193,14 @@ public class SearchServer<T> {
 
     private static byte[] copy(byte[] arr, byte value) {
         Arrays.sort(arr);
-        if(contain(arr,value)){
+        if (contain(arr, value)) {
             return arr;
         }
-        byte[] newArr=new byte[arr.length+1];
-        newArr[newArr.length-1]=value;
-        System.arraycopy(arr,0,newArr,0,arr.length);
+        byte[] newArr = new byte[arr.length + 1];
+        newArr[newArr.length - 1] = value;
+        System.arraycopy(arr, 0, newArr, 0, arr.length);
         Arrays.sort(newArr);
-        return  newArr;
+        return newArr;
     }
 
     private static boolean contain(byte[] arr, byte value) {

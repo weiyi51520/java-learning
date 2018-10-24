@@ -13,26 +13,29 @@ public class ReentrantLock_1 {
     public static void main(String[] args) throws InterruptedException {
         ReentrantLock_1 reentrantLock1 = new ReentrantLock_1();
 
-        new Thread(() -> {
-            reentrantLock1.add();
-        }).start();
-        Thread.sleep(1000);
+        Thread t1 = new Thread(() -> {
+            add();
+        });
 
-        new Thread(() -> {
-           reentrantLock1.add();
-        }).start();
-        Thread.sleep(1000);
+        Thread t2 = new Thread(() -> {
+            add();
+        });
+
+        t1.start();
+        t2.start();
+        t1.join();
+        t2.join();
 
         System.out.println(i);
     }
 
-    void add(){
+    static void add(){
         try {
             LOCK.lock();
             for (int j = 0; j < 10000; j++) {
                 i++;
             }
-        }finally {
+        } finally {
             LOCK.unlock();
         }
 

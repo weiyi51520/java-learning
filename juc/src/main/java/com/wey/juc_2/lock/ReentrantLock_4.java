@@ -15,22 +15,23 @@ public class ReentrantLock_4 implements Runnable{
     public void run() {
         try {
             if (LOCK.tryLock(5, TimeUnit.SECONDS)){
+                System.out.println(Thread.currentThread().getName()+" get lock");
                 Thread.sleep(6000);
-                System.out.println("get it");
             }else {
-                System.out.println("get failed");
+                System.out.println(Thread.currentThread().getName()+" get failed");
             }
         }catch (Exception e){
             e.printStackTrace();
         }finally {
             if (LOCK.isHeldByCurrentThread()){
-                LOCK.unlock();
+
+                System.out.println(Thread.currentThread().getName()+" unlock");
             }
         }
     }
 
     public static void main(String[] args) {
         ReentrantLock_4 reentrantLock4 = new ReentrantLock_4();
-        IntStream.range(0,2).forEach(i -> new Thread(reentrantLock4).start());
+        IntStream.range(0,5).forEach(i -> new Thread(reentrantLock4).start());
     }
 }

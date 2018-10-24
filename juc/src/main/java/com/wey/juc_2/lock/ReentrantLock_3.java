@@ -15,13 +15,11 @@ public class ReentrantLock_3 {
 
         new Thread(() -> {
            reentrantLock3.add();
-        }).start();
-        Thread.sleep(1000);
+        },"t1").start();
 
         new Thread(() -> {
             reentrantLock3.add();
-        }).start();
-        Thread.sleep(1000);
+        },"t2").start();
 
 
     }
@@ -36,7 +34,7 @@ public class ReentrantLock_3 {
                 LOCK.unlock();
             }
         } else {
-            System.out.println("没有获取到锁" + Thread.currentThread().getName());
+            System.out.println(Thread.currentThread().getName() + "没有获取到锁" );
         }
     }
 }

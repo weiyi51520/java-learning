@@ -36,7 +36,7 @@ public class Condition01 {
         lock.lock();
         try {
             for(;;i++){
-                System.out.println("add i: "+i);
+                System.out.println("addInterrupt i: "+i);
                 if (i>=30){
                     System.out.println("waiting...");
                     Thread.sleep(1000);

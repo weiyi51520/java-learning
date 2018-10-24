@@ -7,42 +7,57 @@ import java.util.concurrent.locks.ReentrantLock;
  * @date 2018/10/19 下午4:35
  */
 public class ReentrantLock_2 {
-    private static final ReentrantLock reentrantLock=new ReentrantLock();
-    static int i=0;
+    private static final ReentrantLock reentrantLock = new ReentrantLock();
+    static int i = 0;
 
     public static void main(String[] args) throws InterruptedException {
         ReentrantLock_2 reentrantLock2 = new ReentrantLock_2();
-        Thread thread = new Thread(() -> {
-            reentrantLock2.add();
-        });
-        thread.start();
 
-        Thread.sleep(1000);//主要目的是让两个线程把事情干完
-        Thread thread2 = new Thread(() -> {
-            reentrantLock2.add();
-        });
-        thread2.start();
-        Thread.sleep(1000);//主要目的是让两个线程把事情干完
-        thread2.interrupt();//增加这段代码================
+        Thread t1 = new Thread(() -> {
+            reentrantLock2.addInterrupt();
+        }, "t1");
+
+        Thread t2 = new Thread(() -> {
+            reentrantLock2.addInterrupt();
+        }, "t2");
+        t1.start();
+        t2.start();
+
+        Thread.sleep(1000);
+
+        System.out.println("main do interrupt!");
+        t1.interrupt();
+        t2.interrupt();
         System.out.println(i);
+    }
 
+    public void add() {
+        try {
+            reentrantLock.lock();
+            System.out.println(Thread.currentThread().getName()+ " lock ");
+            for (; ; ) {
+                i++;
+            }
+        } finally {
+            System.out.println(Thread.currentThread().getName() + " unlock ");
+            reentrantLock.unlock();
+        }
     }
 
     /***
      * 强调try fianlly规范
      */
-    public  void add(){
+    public void addInterrupt() {
         try {
-            // reentrantLock.reentrantLock();
-            try {
-                reentrantLock.lockInterruptibly();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            for (;;) {
+            reentrantLock.lockInterruptibly();
+            System.out.println(Thread.currentThread().getName()+ " lockInterruptibly ");
+            for (; ; ) {
                 i++;
             }
+        } catch (InterruptedException e) {
+            System.out.println(Thread.currentThread().getName()+ " interrupted when state :" + Thread.currentThread().getState());
         } finally {
+            System.out.println(Thread.currentThread().getName() + " unlock ");
             reentrantLock.unlock();
         }
     }

@@ -28,15 +28,11 @@ public class Semaphore_1 {
 
     public static void action(int i) throws InterruptedException {
         semaphore.acquire();
-        System.out.println(i+ "kill the iphone x in JD");
 
-        try {
-         Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        System.out.println(i + "kill the iphone x in JD");
+        Thread.sleep(3000);
         System.out.println(i + "kill successful");
+
         semaphore.release();
     }
 }
