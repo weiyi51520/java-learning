@@ -81,13 +81,7 @@ fabric.properties
 
 .gitignore.swp
 .idea/
-jdbc/pom.xml
-jdbc/src/main/java/
 jdbc/src/test/
-juc/src/main/java/com/wey/juc_2/sync/
-juc/src/main/java/com/wey/juc_2/util/
-juc/src/main/java/com/wey/juc_2/volatiles/
-juc/src/main/resources/
 juc/src/test/
 juc/target/generated-sources/
 mvc/src/test/
@@ -95,6 +89,5 @@ mvc/target/generated-sources/
 mybatis/src/test/resources/
 spring/src/test/
 spring/target/generated-sources/
-src/main/java/
 src/main/resources/META-INF/
 src/test/

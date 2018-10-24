@@ -1,4 +1,4 @@
-package com.wey.juc_2.sempahore.scene;
+package com.wey.juc_2.sempahore.current_limiting;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

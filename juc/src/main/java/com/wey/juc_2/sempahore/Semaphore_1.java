@@ -1,7 +1,5 @@
 package com.wey.juc_2.sempahore;
 
-import com.wey.juc_2.sempahore.scene.SearchServer;
-
 import java.util.concurrent.Semaphore;
 
 /**
