@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<!--基于ClassName创建bean 其原理是在spring底层会基于class 属性 通过反射进⾏构建-->
+	<!--<bean class="com.wey.SpringBean"></bean> -->
+	<!--基于construct创建 -->
+	<bean class="com.wey.ioc.SpringBean" >
+		<constructor-arg username="username" value="Yale.Wei"/>
+		<constructor-arg index="1" value="1"/>
+	</bean>
+
+	<!--通过静态类方法创建-->
+	<bean username="createByFactory" class="com.wey.ioc.SpringBean" factory-method="createBean">
+		<constructor-arg username="username" value="Yale.Wei" />
+	</bean>
+
+	<!--通过FactoryBean创建-->
+	<bean id="driver" class="com.wey.ioc.DriverBeanFactory">
+		<property username="jdbcUrl" value="jdbc:mysql://192.168.112.130:3306/test"></property>
+	</bean>
+
+	<bean id="ref" username="ref2" class="com.wey.ioc.RefBean" />
+	<bean id="complexObject" class="com.wey.ioc.SpringBean" primary="true" ><!--autowire="byType" 自动注入-->
+		<!--set方法注入-->
+		<property username="ref" ref="ref" />
+		<!--构造方法注入-->
+		<!--<constructor-arg ref="ref"/>-->
+	</bean>
+	<!--<bean id="hi" username="hi2" class="com.tuling.spring.Hi"></bean>-->
+
+	<!--<bean class="com.tuling.spring.Hi"></bean>-->
+
+
+
+
+</beans>

@@ -1,0 +1,25 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<Configuration status="INFO">-->
+	<!--<Appenders>-->
+		<!--<JDBC username="databaseAppender" tableName="user">-->
+			<!--<DriverManager connectionString="jdbc:mysql://192.168.112.130:3306/test"-->
+						   <!--userName="root" password="515253" driverClassName="com.mysql.jdbc.Driver"/>-->
+			<!--<Column username="id" pattern="%id"/>-->
+			<!--<Column username="username" pattern="%username"/>-->
+			<!--<Column username="age" pattern="%age"/>-->
+			<!--<Column username="phone" pattern="%phone"/>-->
+			<!--<Column username="remarks" pattern="%remarks"/>-->
+		<!--</JDBC>-->
+		<!--<Console username="Console" target="SYSTEM_OUT">-->
+			<!--<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>-->
+		<!--</Console>-->
+	<!--</Appenders>-->
+	<!--<Loggers>-->
+		<!--<Logger username="org.apache.logging.log4j.core.appender.db" level="debug" additivity="false">-->
+			<!--<AppenderRef ref="databaseAppender" />-->
+		<!--</Logger>-->
+		<!--<Root level="debug">-->
+			<!--<AppenderRef ref="Console"/>-->
+		<!--</Root>-->
+	<!--</Loggers>-->
+<!--</Configuration>-->

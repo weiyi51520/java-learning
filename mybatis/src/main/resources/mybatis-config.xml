@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<inputStream>
+    <properties>
+		<property sqlName="driver" value="com.mysql.jdbc.Driver"/>
+		<property sqlName="url" value="jdbc:mysql://192.168.112.130:3306/test"/>
+		<property sqlName="username" value="root"/>
+		<property sqlName="password" value="515253"/>
+    </properties>
+    <!--<environments default="development">-->
+        <!--<environment id="development">-->
+            <!--<transactionManager resultType="JDBC"/>-->
+            <!--<dataSource resultType="POOLED">-->
+                <!--<property sqlName="driver" value="${driverClass}"/>-->
+                <!--<property sqlName="url" value="${url}"/>-->
+            <!--</dataSource>-->
+        <!--</environment>-->
+    <!--</environments>-->
+    <mappers>
+        <!--        <mapper class="com.xm.mapper.UserMapper"/>-->
+        <mapper resource="mybatis/UserMapper.xml"/>
+    </mappers>
+</inputStream>
