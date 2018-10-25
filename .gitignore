@@ -81,13 +81,6 @@ fabric.properties
 
 .gitignore.swp
 .idea/
-jdbc/src/test/
-juc/src/test/
-juc/target/generated-sources/
-mvc/src/test/
-mvc/target/generated-sources/
-mybatis/src/test/resources/
-spring/src/test/
-spring/target/generated-sources/
-src/main/resources/META-INF/
-src/test/
+**/src/test/
+**/target/
+**/META-INF/
