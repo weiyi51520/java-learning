@@ -7,28 +7,31 @@
 	<!--<bean class="com.wey.SpringBean"></bean> -->
 	<!--基于construct创建 -->
 	<bean class="com.wey.ioc.SpringBean" >
-		<constructor-arg name="name" value="weiyi"/>
+		<constructor-arg name="name" value="Yale.Wei"/>
 		<constructor-arg index="1" value="1"/>
 	</bean>
 
-	<!--通过静态类方法创建-->
-	<bean name="createByFactory" class="com.wey.ioc.SpringBean" factory-method="createBean">
-		<constructor-arg name="name" value="weiyi" />
+	<bean class="com.wey.ioc.MyProcessor">
+
 	</bean>
+	<!--通过静态类方法创建-->
+	<!--<bean name="createByFactory" class="com.wey.ioc.SpringBean" factory-method="createBean">-->
+		<!--<constructor-arg name="name" value="Yale.Wei" />-->
+	<!--</bean>-->
 
 	<!--通过FactoryBean创建-->
-	<bean id="driver" class="com.wey.ioc.DriverBeanFactory">
-		<property name="jdbcUrl" value="jdbc:mysql://192.168.112.130:3306/test"></property>
-	</bean>
+	<!--<bean id="driver" class="com.wey.ioc.DriverBeanFactory">-->
+		<!--<property name="jdbcUrl" value="jdbc:mysql://192.168.112.130:3306/test" />-->
+	<!--</bean>-->
 
 	<bean id="ref" name="ref2" class="com.wey.ioc.RefBean" />
-	<bean id="complexObject" class="com.wey.ioc.SpringBean" primary="true" ><!--autowire="byType" 自动注入-->
-		<!--set方法注入-->
-		<property name="ref" ref="ref" />
-		<!--构造方法注入-->
-		<!--<constructor-arg ref="ref"/>-->
-	</bean>
-	<!--<bean id="hi" name="hi2" class="com.tuling.spring.Hi"></bean>-->
+	<!--<bean id="complexObject" class="com.wey.ioc.SpringBean" primary="true" >&lt;!&ndash;autowire="byType" 自动注入&ndash;&gt;-->
+		<!--&lt;!&ndash;set方法注入&ndash;&gt;-->
+		<!--<property name="ref" ref="ref" />-->
+		<!--&lt;!&ndash;构造方法注入&ndash;&gt;-->
+		<!--&lt;!&ndash;<constructor-arg ref="ref"/>&ndash;&gt;-->
+	<!--</bean>-->
+	<!--<bean id="hi" username="hi2" class="com.tuling.spring.Hi"></bean>-->
 
 	<!--<bean class="com.tuling.spring.Hi"></bean>-->
 

@@ -1,4 +1,4 @@
-package com.wey.juc_2.annotation;
+package com.wey.annotation;
 
 /**
  * @author Yale.Wei

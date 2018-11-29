@@ -1,12 +1,16 @@
 package com.wey.ioc;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 /**
  * @author Yale.Wei
  * @date 2018/9/23 19:44
  */
-public class SpringBean {
+public class SpringBean implements BeanNameAware,BeanFactoryAware,ApplicationContextAware,DisposableBean,InitializingBean{
 	private String name;
 	private int sex;
 	private RefBean ref;
@@ -19,6 +23,7 @@ public class SpringBean {
 	}
 
 	public SpringBean(String name, int sex) {
+		System.out.println("SpringBean constructor ...");
 		this.name = name;
 		this.sex = sex;
 	}
@@ -53,5 +58,30 @@ public class SpringBean {
 
 	public void setRef(RefBean ref) {
 		this.ref = ref;
+	}
+
+	@Override
+	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+		System.out.println("setBeanFactory ....");
+	}
+
+	@Override
+	public void setBeanName(String name) {
+		System.out.println("setBeanName ...");
+	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		System.out.println("setApplicationContext ...");
+	}
+
+	@Override
+	public void destroy() throws Exception {
+		System.out.println("destroy ...");
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		System.out.println("afterPropertiesSet ...");
 	}
 }

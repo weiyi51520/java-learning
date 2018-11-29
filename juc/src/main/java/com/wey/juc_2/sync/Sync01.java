@@ -1,6 +1,6 @@
 package com.wey.juc_2.sync;
 
-import com.wey.juc_2.annotation.ThreadNoSafe;
+import com.wey.annotation.ThreadNoSafe;
 
 /**
  * @author Yale.Wei

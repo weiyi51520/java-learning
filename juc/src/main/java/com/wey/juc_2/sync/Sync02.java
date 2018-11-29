@@ -1,11 +1,14 @@
 package com.wey.juc_2.sync;
 
-import com.wey.juc_2.annotation.ThreadSafe;
+
+import com.wey.annotation.ThreadSafe;
 
 /**
  * @author Yale.Wei
  * @date 2018/10/24 17:34
  */
+
+
 @ThreadSafe
 public class Sync02 implements Runnable{
     static int i = 0;

@@ -1,6 +1,6 @@
 package com.wey.juc_2.sync;
 
-import com.wey.juc_2.annotation.ThreadSafe;
+import com.wey.annotation.ThreadSafe;
 
 /**
  * @author Yale.Wei
@@ -13,8 +13,10 @@ public class Sync04 implements Runnable{
     @Override
     public void run() {
         synchronized (this.getClass()){ //class级别锁
-            for (int j = 0; j < 10000; j++) {
-                i++;
+            synchronized (this.getClass()){
+                for (int j = 0; j < 10000; j++) {
+                    i++;
+                }
             }
         }
     }

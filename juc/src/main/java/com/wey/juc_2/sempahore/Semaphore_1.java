@@ -1,5 +1,6 @@
 package com.wey.juc_2.sempahore;
 
+
 import java.util.concurrent.Semaphore;
 
 /**
@@ -28,9 +29,9 @@ public class Semaphore_1 {
         semaphore.acquire();
 
         System.out.println(i + "kill the iphone x in JD");
-        Thread.sleep(3000);
-        System.out.println(i + "kill successful");
-
-        semaphore.release();
+//        Thread.sleep(3000);
+//        System.out.println(i + "kill successful");
+//
+//        semaphore.release();
     }
 }

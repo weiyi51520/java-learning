@@ -20,7 +20,7 @@
 	<!--<bean id="simpleControl" class="com.wey.mvc.SimpleControl"/>-->
 
 	<!--<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">-->
-		<!--<property name="urlMap">-->
+		<!--<property username="urlMap">-->
 			<!--<props>-->
 				<!--<prop key="/user.do">simpleControl</prop>-->
 			<!--</props>-->
@@ -32,9 +32,9 @@
 
     <!-- йсм╪╡ж©Б -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/page/"/>
-        <property name="suffix" value=".jsp"/>
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property username="prefix" value="/WEB-INF/page/"/>
+        <property username="suffix" value=".jsp"/>
+        <property username="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
     </bean>
 
 </beans>

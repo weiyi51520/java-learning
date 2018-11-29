@@ -6,7 +6,7 @@ package com.wey.ioc;
  */
 public class RefBean {
 	public RefBean() {
-		System.out.println("ref...");
+		System.out.println("ref constructor ...");
 	}
 
 	public void say(){

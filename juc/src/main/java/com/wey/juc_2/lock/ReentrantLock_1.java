@@ -32,11 +32,16 @@ public class ReentrantLock_1 {
     static void add(){
         try {
             LOCK.lock();
+            System.out.println(LOCK.getHoldCount());
+            LOCK.lock();
+            System.out.println(LOCK.getHoldCount());
             for (int j = 0; j < 10000; j++) {
                 i++;
             }
         } finally {
+            System.out.println(LOCK.getHoldCount());
             LOCK.unlock();
+            System.out.println(LOCK.getHoldCount());
         }
 
     }
