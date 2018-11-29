@@ -1,16 +1,7 @@
-
-# Created by .ignore support plugin (hsz.mobi)
-### Java template
-# Compiled class file
-*.class
-
-# Log file
 *.log
 
-# BlueJ files
 *.ctxt
 
-# Package Files #
 *.jar
 *.war
 *.nar
@@ -19,11 +10,12 @@
 *.tar.gz
 *.rar
 
-# IntelliJ
-out/
+*.class
+
+**/out/
 .idea/
 
-.gitignore.swp
+
 .idea/**
 **/src/test/
 **/target/
