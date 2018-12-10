@@ -3,7 +3,7 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<name>wey</name>
+
 	<groupId>com.wey</groupId>
 	<artifactId>root</artifactId>
 	<packaging>pom</packaging>
@@ -15,7 +15,7 @@
 		<module>mvc</module>
 		<module>juc</module>
 		<module>jvm</module>
-		<module>nio</module>
+		<module>socket</module>
 	</modules>
 
 	<properties>
