@@ -18,7 +18,7 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter{
         Header header = new Header();
         header.setType(MessageType.LOGIN_REQ.value());
         message.setHeader(header);
-        System.out.println("Login req send :" + message);
+        System.out.println("LoginAuthReqHandler channelActive :" + message);
         ctx.writeAndFlush(message);
     }
 
@@ -26,6 +26,7 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         NettyMessage message = (NettyMessage) msg;
+        System.out.println("LoginAuthReqHandler channelRead : " + message.toString());
         //如果是握手应答消息 需要判断是否认证成功
         if (message.getHeader()!=null && message.getHeader().getType() == MessageType.LOGIN_RESP.value()){
             byte loginResult = (byte) message.getBody();

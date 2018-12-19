@@ -47,6 +47,7 @@ public class EchoServer {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             socketChannel.pipeline().addLast(new EchoServerHandler());
+                            socketChannel.pipeline().addLast(new EchoServerHandler2());
                         }
                     });
             // 绑定端口，并启动server，同时设置启动方式为同步

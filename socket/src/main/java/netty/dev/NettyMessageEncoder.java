@@ -30,7 +30,6 @@ public final class NettyMessageEncoder extends MessageToMessageEncoder<NettyMess
 
     @Override
     protected void encode(ChannelHandlerContext ctx, NettyMessage msg, List<Object> out) throws Exception {
-        System.out.println("NettyMessage encode start ......");
         if (msg == null || msg.getHeader() == null){
             throw new RuntimeException("The encode message is null");
         }
@@ -63,6 +62,5 @@ public final class NettyMessageEncoder extends MessageToMessageEncoder<NettyMess
             sendbuf.setInt(4,sendbuf.readableBytes());
         }
         sendbuf.setInt(4, sendbuf.readableBytes()-8);
-        System.out.println("NettyMessage encode end !");
     }
 }

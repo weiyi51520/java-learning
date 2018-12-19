@@ -5,11 +5,8 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.protobuf.ProtobufEncoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 
-import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -33,8 +30,9 @@ public class NettyClient {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline cp = ch.pipeline();
-//                            cp.addLast(new NettyMessageDecoder(1024*1024,4,4));
-//                            cp.addLast(new NettyMessageEncoder());
+                            cp.addLast(new NettyMessageDecoder(1024*1024,4,4));
+                            cp.addLast(new NettyMessageEncoder());
+                            cp.addLast(new ReadTimeoutHandler(20));
                             cp.addLast(new LoginAuthReqHandler());
                             cp.addLast(new HeartBeatReqHandler());
                         }

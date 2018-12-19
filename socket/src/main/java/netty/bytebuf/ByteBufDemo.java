@@ -5,7 +5,6 @@ import io.netty.buffer.CompositeByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ByteProcessor;
 import io.netty.util.CharsetUtil;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.nio.charset.Charset;
 import java.util.Random;

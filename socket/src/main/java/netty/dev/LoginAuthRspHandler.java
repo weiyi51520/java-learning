@@ -16,12 +16,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LoginAuthRspHandler extends ChannelInboundHandlerAdapter{
     private Map<String,Boolean> nodeCheck = new ConcurrentHashMap<>();
 
-    private String[] whitekList={"127.0.0.1","192.168.10.186"}; //白名单
+    private String[] whitekList={"127.0.0.1","192.168.10.185"}; //白名单
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         NettyMessage message = (NettyMessage) msg;
-        System.out.println("Login auth rsp handler receive msg :" + message.toString());
+        System.out.println("LoginAuthRspHandler  channelRead:" + message.toString());
         //如果是握手请求消息进行处理 其他消息直接透传
         if (message.getHeader()!=null && message.getHeader().getType() == MessageType.LOGIN_REQ.value()){
             String nodeIndex = ctx.channel().remoteAddress().toString();
@@ -42,9 +42,9 @@ public class LoginAuthRspHandler extends ChannelInboundHandlerAdapter{
                 if (isOK){
                     nodeCheck.put(nodeIndex,true);
                 }
-                System.out.println("The login response is : " + loginRsp + " body [" + loginRsp.getBody() + "]");
-                ctx.writeAndFlush(loginRsp);
             }
+            System.out.println("The login response is : " + loginRsp + " body [" + loginRsp.getBody() + "]");
+            ctx.writeAndFlush(loginRsp);
         }else {
             ctx.fireChannelRead(msg);
         }

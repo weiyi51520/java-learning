@@ -2,7 +2,6 @@ package netty.dev;
 
 import io.netty.buffer.ByteBuf;
 import org.jboss.marshalling.Marshaller;
-import org.jboss.marshalling.Marshalling;
 
 import java.io.IOException;
 

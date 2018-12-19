@@ -8,8 +8,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 
 import java.io.IOException;
@@ -33,8 +33,9 @@ public class NettyServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) throws IOException {
-//                            ch.pipeline().addLast(new NettyMessageDecoder(1024 * 1024, 4, 4));
-//                            ch.pipeline().addLast(new NettyMessageEncoder());
+                            ch.pipeline().addLast(new NettyMessageDecoder(1024 * 1024, 4, 4));
+                            ch.pipeline().addLast(new NettyMessageEncoder());
+                            ch.pipeline().addLast(new ReadTimeoutHandler(20));
                             ch.pipeline().addLast(new LoginAuthRspHandler());
                             ch.pipeline().addLast(new HeartBeatRespHandler());
                         }

@@ -43,7 +43,7 @@ public class EchoClient {
 
             //发起异步连接操作
             ChannelFuture future = bootstrap.connect(host, port).sync();
-
+            assert future.isDone();
             //等待客户端链路关闭
             future.channel().closeFuture().sync();
 
