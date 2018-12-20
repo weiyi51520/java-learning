@@ -10,7 +10,7 @@ import java.util.Map;
  * @date 2018/12/12 15:50
  */
 public class Header {
-    private int crcCode = 0xabef0101;
+    private int crcCode = 0xabef0101; //固定4个字节
     /*消息长度*/
     private int length;
     private long sessionID;
@@ -68,13 +68,13 @@ public class Header {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("crcCode", crcCode)
-                .append("length", length)
-                .append("sessionID", sessionID)
-                .append("type", type)
-                .append("priority", priority)
-                .append("attachment", attachment)
-                .toString();
+        return "Header{" +
+                "crcCode=" + crcCode +
+                ", length=" + length +
+                ", sessionID=" + sessionID +
+                ", type=" + type +
+                ", priority=" + priority +
+                ", attachment=" + attachment +
+                '}';
     }
 }

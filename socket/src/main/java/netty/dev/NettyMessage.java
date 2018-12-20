@@ -28,9 +28,9 @@ public class NettyMessage {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("header", header)
-                .append("body", body)
-                .toString();
+        return "NettyMessage{" +
+                "header=" + header +
+                ", body=" + body +
+                '}';
     }
 }

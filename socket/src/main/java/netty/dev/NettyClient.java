@@ -21,43 +21,27 @@ public class NettyClient {
     private ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
     EventLoopGroup group = new NioEventLoopGroup();
 
-    public void connect(int port,String host) throws InterruptedException {
+    public void connect(int port, String host) throws InterruptedException {
         Bootstrap bootstrap = new Bootstrap();
-        try {
-            bootstrap.group(group).channel(NioSocketChannel.class)
-                    .option(ChannelOption.TCP_NODELAY,true)
-                    .handler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel ch) throws Exception {
-                            ChannelPipeline cp = ch.pipeline();
-                            cp.addLast(new NettyMessageDecoder(1024*1024,4,4));
-                            cp.addLast(new NettyMessageEncoder());
-                            cp.addLast(new ReadTimeoutHandler(20));
-                            cp.addLast(new LoginAuthReqHandler());
-                            cp.addLast(new HeartBeatReqHandler());
-                        }
-                    });
-
-            ChannelFuture future = bootstrap.connect(host,port).sync(); //绑定了本地端口 用于重复登录保护
-            future.channel().closeFuture().sync();
-        } finally {
-            executor.execute(() -> {
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                    try {
-                        connect(PORT,REMOTEIP);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+        bootstrap.group(group).channel(NioSocketChannel.class)
+                .option(ChannelOption.TCP_NODELAY, true)
+                .handler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    protected void initChannel(SocketChannel ch) throws Exception {
+                        ChannelPipeline cp = ch.pipeline();
+                        cp.addLast(new NettyMessageDecoder(1024 * 1024, 0, 4, -4, 0));
+                        cp.addLast(new NettyMessageEncoder());
+                        cp.addLast(new LoginAuthReqHandler());
+                        cp.addLast(new HeartBeatReqHandler());
                     }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
-        }
+                });
+
+        ChannelFuture future = bootstrap.connect(host, port).sync(); //绑定了本地端口 用于重复登录保护
+        future.channel().closeFuture().sync();
 
     }
 
     public static void main(String[] args) throws InterruptedException {
-        new NettyClient().connect(PORT,REMOTEIP);
+        new NettyClient().connect(PORT, REMOTEIP);
     }
 }

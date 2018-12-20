@@ -1,6 +1,9 @@
 package netty.dev;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.marshalling.MarshallingDecoder;
+import io.netty.handler.codec.marshalling.UnmarshallerProvider;
 import org.jboss.marshalling.ByteInput;
 import org.jboss.marshalling.Unmarshaller;
 
@@ -10,33 +13,17 @@ import java.io.IOException;
  * @author Yale.Wei
  * @date 2018/12/14 10:49
  */
-public class MyMarshallingDecoder {
-    private final Unmarshaller unmarshaller;
-
-    /**
-     * Creates a new decoder whose maximum object size is {@code 1048576} bytes.
-     * If the size of the received object is greater than {@code 1048576} bytes,
-     * a {@link java.io.StreamCorruptedException} will be raised.
-     *
-     * @throws IOException
-     *
-     */
-    public MyMarshallingDecoder() throws IOException {
-        this.unmarshaller = MarshallingCodecFactory.buildUnMarshalling();
+public class MyMarshallingDecoder extends MarshallingDecoder{
+    public MyMarshallingDecoder(UnmarshallerProvider provider) {
+        super(provider);
     }
 
-    protected Object decode(ByteBuf in) throws Exception {
-        int objectSize = in.readInt();
-        ByteBuf buf = in.slice(in.readerIndex(), objectSize);
-        ByteInput input = new ChannelBufferByteInput(buf);
-        try {
-            unmarshaller.start(input);
-            Object obj = unmarshaller.readObject();
-            unmarshaller.finish();
-            in.readerIndex(in.readerIndex() + objectSize);
-            return obj;
-        } finally {
-            unmarshaller.close();
-        }
+    public MyMarshallingDecoder(UnmarshallerProvider provider, int maxObjectSize) {
+        super(provider, maxObjectSize);
+    }
+
+    @Override
+    public Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
+        return super.decode(ctx, in);
     }
 }

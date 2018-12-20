@@ -18,7 +18,7 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter{
         Header header = new Header();
         header.setType(MessageType.LOGIN_REQ.value());
         message.setHeader(header);
-        System.out.println("LoginAuthReqHandler channelActive :" + message);
+        message.setBody("Loagin auth request");
         ctx.writeAndFlush(message);
     }
 
@@ -29,16 +29,15 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter{
         System.out.println("LoginAuthReqHandler channelRead : " + message.toString());
         //如果是握手应答消息 需要判断是否认证成功
         if (message.getHeader()!=null && message.getHeader().getType() == MessageType.LOGIN_RESP.value()){
-            byte loginResult = (byte) message.getBody();
-            if (loginResult != 0){ //握手失败
-                ctx.close();
-            }else {
-                System.out.println("Login is ok : " + message);
-                ctx.fireChannelRead(msg);
-            }
-        }else {
-            ctx.fireChannelRead(msg);
+            System.out.println("Receive login auth response from server: " + message);
         }
+        ctx.fireChannelRead(msg);
+    }
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("LoginAuthReqHandler channelReadComplete");
+        ctx.fireChannelReadComplete();
     }
 
     @Override

@@ -20,14 +20,15 @@ public class HeartBeatReqHandler extends ChannelInboundHandlerAdapter {
         System.out.println("HeartBeatReqHandler channelRead : " + message.toString());
         //接收的握手成功消息 主动发送心跳消息
         if (message.getHeader() != null && message.getHeader().getType() == MessageType.LOGIN_RESP.value()) {
-            heartBeat = ctx.executor().scheduleAtFixedRate(new HeartBeatTask(ctx), 0, 5000, TimeUnit.MILLISECONDS);
+            heartBeat = ctx.executor().scheduleAtFixedRate(new HeartBeatTask(ctx), 3, 10, TimeUnit.SECONDS);
         }
         //接收的是心跳响应消息
         else if (message.getHeader() != null && message.getHeader().getType() == MessageType.HEARTBEAT_RESP.value()) {
             System.out.println("Client receive server heart beat message : ---> " + message);
-        } else {
-            ctx.fireChannelRead(msg);
         }
+
+        ctx.fireChannelRead(msg);
+
     }
 
     @Override

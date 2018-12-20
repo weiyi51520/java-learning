@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +19,7 @@ public final class NettyMessageEncoder extends MessageToMessageEncoder<NettyMess
     MyMarshallingEncoder encoder;
 
     public NettyMessageEncoder() throws IOException {
-        encoder = new MyMarshallingEncoder();
+        encoder = MarshallingCodecFactory.buildMarshallingEncoder();
     }
 
     @Override
@@ -34,15 +35,15 @@ public final class NettyMessageEncoder extends MessageToMessageEncoder<NettyMess
             throw new RuntimeException("The encode message is null");
         }
         ByteBuf sendbuf = Unpooled.buffer();
-        sendbuf.writeInt(msg.getHeader().getCrcCode());
+//        sendbuf.writeInt(msg.getHeader().getCrcCode());
         sendbuf.writeInt(msg.getHeader().getLength());
         sendbuf.writeLong(msg.getHeader().getSessionID());
         sendbuf.writeByte(msg.getHeader().getType());
         sendbuf.writeByte(msg.getHeader().getPriority());
         sendbuf.writeInt(msg.getHeader().getAttachment().size());
 
-        String key = null;
-        byte[] keyArray = null;
+        String key;
+        byte[] keyArray;
         Object value = null;
         for (Map.Entry<String, Object> param : msg.getHeader().getAttachment().entrySet()) {
             key = param.getKey();
@@ -50,17 +51,17 @@ public final class NettyMessageEncoder extends MessageToMessageEncoder<NettyMess
             sendbuf.writeInt(keyArray.length);
             sendbuf.writeBytes(keyArray);
             value = param.getValue();
-            encoder.encode(msg.getBody(),sendbuf);
+            encoder.encode(ctx,value,sendbuf);
         }
         key = null;
         keyArray = null;
         value = null;
         if (msg.getBody() != null){
-            encoder.encode(msg.getBody(),sendbuf);
-        } else {
-            sendbuf.writeInt(0);
-            sendbuf.setInt(4,sendbuf.readableBytes());
+            encoder.encode(ctx,msg.getBody(),sendbuf);
         }
-        sendbuf.setInt(4, sendbuf.readableBytes()-8);
+
+        //在第0个index位置写入Buffer长度
+        sendbuf.setInt(0,sendbuf.readableBytes());
+        out.add(sendbuf);
     }
 }
