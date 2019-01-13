@@ -38,9 +38,9 @@ public class HttpFileServer {
                         }
                     });
 
-            ChannelFuture f = b.bind("192.168.10.185", port).sync();
+            ChannelFuture f = b.bind("192.168.10.186", port).sync();
 
-            System.out.println("HTTP FILE SERVER IS ON , URL ： http://192.168.10.185:" + port + url);
+            System.out.println("HTTP FILE SERVER IS ON , URL ： http://192.168.10.186:" + port + url);
 
             // 等待服务端监听端口关闭
             f.channel().closeFuture().sync();
